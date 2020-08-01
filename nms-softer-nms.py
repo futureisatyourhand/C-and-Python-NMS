@@ -71,13 +71,14 @@ def soft_nms(dets,sigma=0.1,method=2,Nt=0.5,threshold=0.1):
                         weight=0
                     else:
                         weight=1
-            ## 赋予该box新的置信度
-            dets[pos,4]=weight*dets[pos,4]
-            
-            # 如果box得分低于阈值threshold，则通过与最后一个框交换来丢弃该框
-            if dets[pos,4]<threshold:
-                dets[pos,:]=dets[box_lens-1,:]
-                box_lens-=1
+                ## 赋予该box新的置信度
+                dets[pos,4]=weight*dets[pos,4]
+                
+                # 如果box得分低于阈值threshold，则通过与最后一个框交换来丢弃该框
+                if dets[pos,4]<threshold:
+                    dets[pos,:]=dets[box_lens-1,:]
+                    box_lens-=1
+                    pos-=1
             pos+=1
     return [i for i in range(box_lens)]
                 
